@@ -1,0 +1,11 @@
+{
+  "payload": {
+    "object": {
+      "registrant": {
+        "email": "tien.test@mail.com",
+        "first_name": "Tien",
+        "last_name": "Phan"
+      }
+    }
+  }
+}
