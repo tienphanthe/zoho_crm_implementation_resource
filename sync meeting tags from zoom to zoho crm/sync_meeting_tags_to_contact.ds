@@ -1,3 +1,7 @@
+// Author:			Tien Th. Phan
+// Release date:	April 10, 2026.
+// Version:			1.0
+
 // Dùng Argument: meetingId ; module: Meetings, field: Meeting Id
 
 void automation.sync_meeting_tags_to_contact(Int meetingId)
