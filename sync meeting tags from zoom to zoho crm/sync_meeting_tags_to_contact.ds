@@ -22,7 +22,7 @@ if(meetingTags != null && contactInfo != null)
 	// 3. LẤY TAG HIỆN TẠI CỦA CONTACT (ĐỂ KHÔNG BỊ MẤT TAG CŨ)
 	contactDetails = zoho.crm.getRecordById("Contacts",contactId);
 	existingTags = contactDetails.get("Tag");
-	// Tạo danh sách Tag mới (Dùng định dạng JSON Object - Đây là chìa khóa)
+	// Tạo danh sách Tag mới (Dùng định dạng JSON Object)
 	tagList = List();
 	// Thêm lại các Tag cũ
 	if(existingTags != null)
@@ -50,11 +50,11 @@ if(meetingTags != null && contactInfo != null)
 			tagList.add({"name":tName});
 		}
 	}
-	// 4. CẬP NHẬT TRỰC TIẾP (KHÔNG DÙNG INVOKEURL NỮA)
-	// Kỹ thuật: Đưa danh sách Object vào trường "Tag"
+	// 4. CẬP NHẬT TRỰC TIẾP
+	// Đưa danh sách Object vào trường "Tag"
 	updateMap = Map();
 	updateMap.put("Tag",tagList);
-	// Lệnh này ghi trực tiếp vào Database, bỏ qua lỗi URL Encoding
+	// Lệnh này ghi trực tiếp vào Database
 	res = zoho.crm.updateRecord("Contacts",contactId,updateMap);
 	info "Danh sách Tag thực tế gửi đi: " + tagList;
 	info "Kết quả cập nhật: " + res;
