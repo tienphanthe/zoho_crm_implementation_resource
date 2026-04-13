@@ -1,0 +1,37 @@
+// Author:        Tien Phan
+// Release Date:  14 Apr 2026
+
+void automation.Auto_Create_Payment_Schedules(int dealId)
+{
+// 1. Lấy thông tin chi tiết từ Deal
+dealDetails = zoho.crm.getRecordById("Deals", dealId);
+totalAmount = ifnull(dealDetails.get("Amount"),0);
+numberOfInstallments = ifnull(dealDetails.get("S_t_tr_g_p"),0); // Thay "S_t_tr_g_p" bằng API Name chuẩn của bạn
+
+if(numberOfInstallments > 0 && totalAmount > 0)
+{
+	// 2. Tính toán số tiền cho mỗi đợt
+	amountPerInstallment = totalAmount / numberOfInstallments;
+	
+	// 3. Vòng lặp để tạo từng bản ghi Payment Schedule
+	installmentList = {1,2,3,4,5,6,7,8,9,10,11,12}; // Giới hạn số đợt tối đa tùy ý
+	for each index in installmentList
+	{
+		if(index <= numberOfInstallments)
+		{
+			createMap = Map();
+			createMap.put("Name", "Thanh toán đợt " + index);
+			createMap.put("Deal", dealId);
+			createMap.put("Amount_Due", amountPerInstallment);
+			
+			// Tính toán ngày đến hạn (Ví dụ: mỗi đợt cách nhau 30 ngày)
+			dueDate = today.addDay(index * 30);
+			createMap.put("Ng_y_n_h_n_thanh_to_n", dueDate);
+			createMap.put("Status", "Chưa đến hạn");
+			
+			// 4. Tạo bản ghi trong Module Payment Schedules
+			createResponse = zoho.crm.createRecord("Payment_Schedules", createMap);
+		}
+	}
+}
+}
